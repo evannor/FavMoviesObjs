@@ -3,7 +3,7 @@ const searchBtn = document.getElementById("search-btn");
 
 const movies = [];
 
-function renderMovies() {
+function renderMovies(filter = "") {
   // this is not the most ideal method to complete this task
   const movieList = document.getElementById("movie-list");
 
@@ -16,7 +16,12 @@ function renderMovies() {
   }
   movieList.innerHTML = "";
 
-  movies.forEach((movie) => {
+  // only search through the filtered movies
+  const filteredMovies = !filter
+    ? movies
+    : movies.filter((movie) => movie.info.title.includes(filter));
+
+  filteredMovies.forEach((movie) => {
     const movieEl = document.createElement("li");
     let text = movie.info.title + " - ";
     // go through all key-value pairs in an object with for-in loop
@@ -59,4 +64,10 @@ function addMovieHandler() {
   renderMovies();
 }
 
+function searchMovieHandler() {
+  const searchTerm = document.getElementById("filter-title").value;
+  renderMovies(searchTerm);
+}
+
 addMovieBtn.addEventListener("click", addMovieHandler);
+searchBtn.addEventListener("click", searchMovieHandler);
