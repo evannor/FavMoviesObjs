@@ -3,6 +3,26 @@ const searchBtn = document.getElementById("search-btn");
 
 const movies = [];
 
+function renderMovies() {
+  // this is not the most ideal method to complete this task
+  const movieList = document.getElementById("movie-list");
+
+  // below is bad for performance as the movieList will be cleared each time function is called
+  // going this route for practice with working with objects
+  if (movies.length === 0) {
+    movieList.classList.remove("visible");
+  } else {
+    movieList.classList.add("visible");
+  }
+  movieList.innerHTML = "";
+
+  movies.forEach((movie) => {
+    const movieEl = document.createElement("li");
+    movieEl.textContent = movie.info.title;
+    movieList.append(movieEl);
+  });
+}
+
 function addMovieHandler() {
   // gather all user input and add that to the movie(create a new movie object)
   const title = document.getElementById("title").value;
@@ -28,7 +48,8 @@ function addMovieHandler() {
     id: Math.random(),
   };
   movies.push(newMovie);
-  console.log(newMovie);
+  // console.log(newMovie);
+  renderMovies();
 }
 
 addMovieBtn.addEventListener("click", addMovieHandler);
