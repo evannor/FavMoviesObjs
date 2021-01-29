@@ -25,7 +25,12 @@ function renderMovies(filter = "") {
     const movieEl = document.createElement("li");
     // destructuring objects requires you to carry on the name of the key in the object
     const { info, ...otherProps } = movie;
-    let text = movie.getFormattedTitle() + " - ";
+    // use bind method to direct this key word in funciton to refer to something specific
+    // passed movie as the first arg to set the this pointer
+    // best for when you want to preconfigure for future use
+    let { getFormattedTitle } = otherProps;
+    // can you call() to assign this to a specific place on the fly
+    let text = getFormattedTitle.call(movie) + " - ";
     // go through all key-value pairs in an object with for-in loop
     for (const key in info) {
       if (key !== "title") {
