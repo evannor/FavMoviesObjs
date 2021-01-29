@@ -23,11 +23,13 @@ function renderMovies(filter = "") {
 
   filteredMovies.forEach((movie) => {
     const movieEl = document.createElement("li");
-    let text = movie.info.title + " - ";
+    // destructuring objects requires you to carry on the name of the key in the object
+    const { info, ...otherProps } = movie;
+    let text = movie.getFormattedTitle() + " - ";
     // go through all key-value pairs in an object with for-in loop
-    for (const key in movie.info) {
+    for (const key in info) {
       if (key !== "title") {
-        text += `${key}: ${movie.info[key]}`;
+        text += `${key}: ${info[key]}`;
       }
     }
     movieEl.textContent = text;
@@ -58,6 +60,9 @@ function addMovieHandler() {
       [extraName]: extraValue,
     },
     id: Math.random(),
+    getFormattedTitle: function () {
+      return this.info.title.toUpperCase();
+    },
   };
   movies.push(newMovie);
   // console.log(newMovie);
